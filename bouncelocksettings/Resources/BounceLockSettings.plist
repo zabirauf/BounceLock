@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>title</key>
+	<string>BounceLock</string>
+	<key>entry</key>
+	<dict>
+		<key>cell</key>
+		<string>PSLinkCell</string>
+		<key>icon</key>
+		<string>bouncelock.png</string>
+		<key>label</key>
+		<string>Bounce Lock</string>
+	</dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Bounce Lock</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>negate</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.zabirauf.bouncelock</string>
+			<key>key</key>
+			<string>Enabled</string>
+			<key>label</key>
+			<string>Enable</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>negate</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.zabirauf.bouncelock</string>
+			<key>key</key>
+			<string>BounceBefore</string>
+			<key>label</key>
+			<string>Bounce before unlocking</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkListCell</string>
+			<key>default</key>
+			<real>4.0</real>
+			<key>detail</key>
+			<string>PSListItemsController</string>
+			<key>key</key>
+			<string>AccelerationValue</string>
+			<key>label</key>
+			<string>How fast to bounce</string>
+			<key>validTitles</key>
+			<array>
+				<string>Slow</string>
+				<string>Medium</string>
+				<string>Fast</string>
+			</array>
+			<key>validValues</key>
+			<array>
+				<real>2.0</real>
+				<real>4.0</real>
+				<real>7.0</real>
+			</array>
+			<key>defaults</key>
+			<string>com.zabirauf.bouncelock</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkListCell</string>
+			<key>default</key>
+			<real>0.5</real>
+			<key>detail</key>
+			<string>PSListItemsController</string>
+			<key>key</key>
+			<string>bounce_factor</string>
+			<key>label</key>
+			<string>How much to bounce</string>
+			<key>validTitles</key>
+			<array>
+				<string>Less</string>
+				<string>Medium</string>
+				<string>High</string>
+			</array>
+			<key>validValues</key>
+			<array>
+				<real>0.3</real>
+				<real>0.4</real>
+				<real>0.5</real>
+			</array>
+			<key>defaults</key>
+			<string>com.zabirauf.bouncelock</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Bounce Lock ©2011 by @zabirauf</string>
+		</dict>
+	</array>
+	
+</dict>
+</plist>
