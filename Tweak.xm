@@ -121,7 +121,7 @@ static BOOL unlocked;
 		CONST_ACCEL=[[dict objectForKey:@"AccelerationValue"] floatValue];
 		BOUNCE_FACTOR=[[dict objectForKey:@"bounce_factor"] floatValue];
 		bounceBeforeUnlock=[[dict objectForKey:@"BounceBefore"] boolValue];
-
+		[dict release];
 		//NSLog(@"ZABI: ACCEL :%f , FACTOR:%f",CONST_ACCEL,BOUNCE_FACTOR);
 	}
 
