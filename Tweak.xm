@@ -1,8 +1,7 @@
 #import <UIKit/UIKit.h>
-#import <SpringBoard/SpringBoard.h>
 
-@interface SBAwayLockBar{
-}
+
+@interface SBAwayLockBar
 -(id)knob;
 -(void)unlock;
 -(void)slideBack:(BOOL)back;
@@ -25,12 +24,9 @@ static double velocity=0;
 static double acceleration=CONST_ACCEL;
 static double totalTime=0;
 static int direction=DIR_BACKWARD;
-static NSTimer *myTimer=nil;
-static BOOL isEnabled;
-static BOOL bounceBeforeUnlock;
-static BOOL unlocked;
-
-
+static BOOL isEnabled=NO;
+static BOOL bounceBeforeUnlock=NO;
+static BOOL unlocked=NO;
 
 %hook SBAwayLockBar
 
@@ -72,16 +68,15 @@ static BOOL unlocked;
 	totalTime+=SLEEP_TIME;
 	velocity=velocity+acceleration*totalTime; //Equation is Vf=Vi + gt
 	if(acceleration==0){
-		[myTimer invalidate];
-		//NSLog(@"I AM INVALIDATED");
-		[myTimer release];
-		myTimer=nil;
 		[self knobDragged:0.0];// Just to get the slide text back
 		if(bounceBeforeUnlock && unlocked){
 			bounceBeforeUnlock=NO;
 			[self unlock];
 		}
 	}
+    else{
+        [NSTimer scheduledTimerWithTimeInterval:SLEEP_TIME target:self selector:@selector(fireOnTimer) userInfo:nil repeats:NO]; 
+    }
 
 	
 	//NSLog(@"VELOCITY: %f, DIRECTION: %d,totalTime: %f",velocity,direction,totalTime);
@@ -89,26 +84,16 @@ static BOOL unlocked;
 }
 -(void)slideBack:(BOOL)back { 
 	%log;
-	//NSLog(@"ZABI: Im HERE");
-	if(isEnabled){
-		if(back==YES){
+	if(isEnabled && back){
 			velocity=0;
 			acceleration=CONST_ACCEL;
 			totalTime=0;
 			direction=DIR_BACKWARD;
 			
-			myTimer=[NSTimer scheduledTimerWithTimeInterval:SLEEP_TIME target:self selector:@selector(fireOnTimer) userInfo:nil repeats:YES];
-			[myTimer retain];
-			
-		}
-		else{
-			%orig;
-		}
+			[NSTimer scheduledTimerWithTimeInterval:SLEEP_TIME target:self selector:@selector(fireOnTimer) userInfo:nil repeats:NO];
 	}
 	else
 		%orig;
-	//NSLog(@"ZABI: Im HERE END");
-
 	
 }
 
@@ -131,29 +116,15 @@ static BOOL unlocked;
 		totalTime=0;
 		direction=DIR_BACKWARD;
 		unlocked=NO;
-		if(myTimer!=nil){
-			if([myTimer isValid]==YES)
-				[myTimer invalidate];
-			[myTimer release];
-			myTimer=nil;
-		}
 	}
 
 	%orig;
 }
 
 -(void)unlock{
-	//I know its really bad coding, could optimize it but not in mood :)
-	if(isEnabled){
-		if(bounceBeforeUnlock){
-			unlocked=YES;
-			[self slideBack:YES];
-		}
-		else{
-			CONST_ACCEL=0;
-			BOUNCE_FACTOR=0;
-			%orig;
-		}
+	if(isEnabled && bounceBeforeUnlock){
+        unlocked=YES;
+        [self slideBack:YES];
 	}else{
 		CONST_ACCEL=0;
 		BOUNCE_FACTOR=0;
